@@ -1,4 +1,5 @@
 import { DataTypes, Model } from 'sequelize';
+import UserDetails from './UserDetails';
 
 import db from '../db';
 
@@ -20,4 +21,8 @@ const model = User.init({
   sequelize: db,
   tableName: 'users',
 });
+
+model.hasOne(UserDetails, { as: 'Details' });
+UserDetails.hasOne(UserDetails, { as: 'User' });
+
 export default model;
