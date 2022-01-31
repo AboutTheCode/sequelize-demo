@@ -1,5 +1,8 @@
 import { DataTypes, Model } from 'sequelize';
 import UserDetails from './UserDetails';
+import Project from './Project';
+import Skill from './Skill';
+import UserRefSkill from './UserRefSkill';
 
 import db from '../db';
 
@@ -22,7 +25,8 @@ const model = User.init({
   tableName: 'users',
 });
 
-model.hasOne(UserDetails, { as: 'Details' });
-UserDetails.hasOne(UserDetails, { as: 'User' });
+model.hasOne(UserDetails, { as: 'Details', foreignKey: 'user_id' });
+model.hasMany(Project, { as: 'Projects', foreignKey: 'user_id' });
+model.belongsToMany(Skill, { as: 'Skills', through: UserRefSkill, foreignKey: 'user_id', otherKey: 'skill_id' });
 
 export default model;
